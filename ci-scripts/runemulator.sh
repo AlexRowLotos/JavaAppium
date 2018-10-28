@@ -1,0 +1,1 @@
+$ANDROID_HOME/tools/emulator -avd NEXUS_S_API_27 &
