@@ -10,8 +10,12 @@ import java.util.List;
 
 public class SearchTests extends CoreTestCase {
 
+
     @Test
     public void testMultipleConditionsSearch() throws Exception {
+
+        //Test was extended on Mobile Web platform by one global refactoring from commit for excersice 17 (previous task)
+
         String[] correctResults = {
                 "Java",
                 "Java (programming language)",
