@@ -4,6 +4,8 @@ import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import lib.ui.ios.OnboardingPageObjectIos;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import java.util.List;
 
 abstract public class SearchPageObject  extends MainPageObject{
@@ -15,14 +17,15 @@ abstract public class SearchPageObject  extends MainPageObject{
         SEARCH_RESULTS_ITEMS,
         SEARCH_CANCEL_BUTTON,
         NAVIGATE_MY_LISTS,
-        SEARCH_RESULT_DOUBLE_TPL;
+        SEARCH_RESULT_DOUBLE_TPL,
+        MAIN_MENU_BUTTON_MW;
 
-    public SearchPageObject(AppiumDriver driver){
+    public SearchPageObject(RemoteWebDriver driver){
         super(driver);
     }
 
     private static String getSearchResultElement(String substring) {
-        return SEARCH_RESULT_TPL.replace("(SUBSTRING)",substring);
+        return SEARCH_RESULT_TPL.replace("(SUBSTRING)", substring);
     }
 
     private static String getSearchResultElementByTwoConditions(String substring_1, String substring_2) {
@@ -68,8 +71,12 @@ abstract public class SearchPageObject  extends MainPageObject{
         return this.waitForElementNotPresent(getSearchResultElement(substring), "there are search results", 5 );
     }
 
-    public void goToMyLists() {
-        this.waitForElementPresentAndClick(NAVIGATE_MY_LISTS, "no my lists menu",5);
+    public void goToMyLists() throws InterruptedException {
+        if (Platform.getInstance().isMW()) {
+            this.waitForElementPresentAndClick(MAIN_MENU_BUTTON_MW, "no main menu button",5);
+            Thread.sleep(1000);
+        }
+            this.waitForElementPresentAndClick(NAVIGATE_MY_LISTS, "no my lists menu",5);
     }
 
     public WebElement waitForElementByTitleAndDescription(String title, String description) {
@@ -82,8 +89,12 @@ abstract public class SearchPageObject  extends MainPageObject{
 
     public void skipOnboardingForIos() {
         if (Platform.getInstance().isIOS()) {
-            OnboardingPageObjectIos onboardingPageObject = new OnboardingPageObjectIos(driver);
+            OnboardingPageObjectIos onboardingPageObject = new OnboardingPageObjectIos((AppiumDriver) driver);
             onboardingPageObject.skipOnboarding();
         }
+    }
+
+    public void goToLoginPage() {
+        driver.get("https://en.m.wikipedia.org/w/index.php?title=Special:UserLogin&returnto=Main+Page");
     }
 }

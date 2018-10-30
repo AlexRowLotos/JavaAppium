@@ -2,6 +2,7 @@ package lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui.ArticlePageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class ArticlePageObjectIos extends ArticlePageObject {
 
@@ -19,7 +20,7 @@ public class ArticlePageObjectIos extends ArticlePageObject {
       EXISTED_LIST_TPL = "xpath://XCUIElementTypeLink[@label='(SUBSTRING)']/parent::XCUIElementTypeCell";
   }
 
-    public ArticlePageObjectIos(AppiumDriver driver){
+    public ArticlePageObjectIos(RemoteWebDriver driver){
         super(driver);
     }
 }

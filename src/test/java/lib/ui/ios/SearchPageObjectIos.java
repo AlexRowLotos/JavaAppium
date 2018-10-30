@@ -2,6 +2,7 @@ package lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui.SearchPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 
 public class SearchPageObjectIos extends SearchPageObject {
@@ -16,7 +17,7 @@ public class SearchPageObjectIos extends SearchPageObject {
         SEARCH_RESULT_DOUBLE_TPL = "xpath://*[android.widget.TextView[@index=0 and @text='(SUBSTRING_1)'] and android.widget.TextView[@index=1 and @text='(SUBSTRING_2)']]";
     }
 
-    public SearchPageObjectIos(AppiumDriver driver)
+    public SearchPageObjectIos(RemoteWebDriver driver)
     {
         super(driver);
     }

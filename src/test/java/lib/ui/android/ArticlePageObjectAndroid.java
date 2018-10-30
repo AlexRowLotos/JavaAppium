@@ -2,6 +2,7 @@ package lib.ui.android;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui.ArticlePageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class ArticlePageObjectAndroid extends ArticlePageObject {
 
@@ -19,7 +20,7 @@ public class ArticlePageObjectAndroid extends ArticlePageObject {
         EXISTED_LIST_TPL = "xpath://*[@class='android.widget.LinearLayout']//*[@text='(SUBSTRING)']";
     }
 
-    public ArticlePageObjectAndroid(AppiumDriver driver){
+    public ArticlePageObjectAndroid(RemoteWebDriver driver){
         super(driver);
     }
 }

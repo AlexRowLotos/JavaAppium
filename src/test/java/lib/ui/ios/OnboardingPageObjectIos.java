@@ -3,13 +3,14 @@ package lib.ui.ios;
 import io.appium.java_client.AppiumDriver;
 import lib.ui.MainPageObject;
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class OnboardingPageObjectIos extends MainPageObject {
 
     private static String
     SKIP_BUTTON = "xpath://*[contains(@name,'Skip')]";
 
-    public OnboardingPageObjectIos(AppiumDriver driver)
+    public OnboardingPageObjectIos(RemoteWebDriver driver)
     {
         super(driver);
     }
