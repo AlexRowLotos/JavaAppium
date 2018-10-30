@@ -3,6 +3,7 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class ArticlePageObject extends MainPageObject {
 
@@ -19,7 +20,7 @@ abstract public class ArticlePageObject extends MainPageObject {
                 RETURN_BUTTON,
                 EXISTED_LIST_TPL;
 
-        public ArticlePageObject(AppiumDriver driver){
+        public ArticlePageObject(RemoteWebDriver driver){
             super(driver);
         }
 
@@ -73,25 +74,41 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
 
         public void addArticleToMyNewList(String listName) throws InterruptedException {
-            openMoreOptions();
-            clickAddToReadingListOption();
-
-            if(Platform.getInstance().isAndroid()){
-                closeOnboarding();
+            if(Platform.getInstance().isMW()){
+                Thread.sleep(2000);
+                clickAddToReadingListOption();
             }
+            else {
+                openMoreOptions();
+                clickAddToReadingListOption();
 
-            enterListName(listName);
+                if (Platform.getInstance().isAndroid()) {
+                    closeOnboarding();
+                }
 
+                enterListName(listName);
+            }
         }
 
         public void addArticleToExistingList(String name) throws InterruptedException{
-            openMoreOptions();
-            clickAddToReadingListOption();
-            this.waitForElementPresentAndClick(getExistingListElement(name), "no list",5);
+            if(Platform.getInstance().isMW()) {
+                Thread.sleep(2000);
+                clickAddToReadingListOption();
+            }
+            else {
+                openMoreOptions();
+                clickAddToReadingListOption();
+                this.waitForElementPresentAndClick(getExistingListElement(name), "no list", 5);
+            }
         }
 
         public void returnToSearch() {
-            this.waitForElementPresentAndClick(RETURN_BUTTON, "no return button", 5);
+            if(Platform.getInstance().isMW()){
+                driver.navigate().back();
+            }
+            else {
+                this.waitForElementPresentAndClick(RETURN_BUTTON, "no return button", 5);
+            }
         }
 
         private static String getExistingListElement(String substring) {

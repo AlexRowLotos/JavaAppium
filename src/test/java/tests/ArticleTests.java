@@ -1,18 +1,11 @@
 package tests;
 
 import lib.CoreTestCase;
-import lib.ui.ArticlePageObject;
-import lib.ui.ListDetailsPageObject;
-import lib.ui.MyListsPageObject;
-import lib.ui.SearchPageObject;
-import lib.ui.factories.ArticlePageObjectFactory;
-import lib.ui.factories.ListDetailsPageObjectFactory;
-import lib.ui.factories.MyListsPageObjectFactory;
-import lib.ui.factories.SearchPageObjectFactory;
+import lib.ui.*;
+import lib.ui.factories.*;
 import org.junit.Test;
 
 public class ArticleTests extends CoreTestCase {
-
 
     @Test
     public void testAddTwoArticles() throws InterruptedException {
@@ -22,13 +15,18 @@ public class ArticleTests extends CoreTestCase {
         };
 
         String[] words_subtitles = {
-                "Object-oriented programming language",
-                "Multi-paradigm (object-oriented) programming language"
+                "bject-oriented programming language",
+                "ulti-paradigm (object-oriented) programming language",
+                "\"Java language\" redirects here."
         };
 
         String myList = "OOP";
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.getPage(driver);
+        searchPageObject.goToLoginPage();
+
+        LoginPageObject loginPageObject = LoginPageObjectFactory.getPage(driver);
+        loginPageObject.loginAs("SelectYourLogin","SelectYouPassword"); //Please use your credentials
 
         searchPageObject.skipOnboardingForIos();
         searchPageObject.initSearchInput();
@@ -37,7 +35,6 @@ public class ArticleTests extends CoreTestCase {
         searchPageObject.clickByArticleWithSubstring(words[0]);
 
         ArticlePageObject articlePageObject =  ArticlePageObjectFactory.getPage(driver);
-
         articlePageObject.waitForTitleElemet();
         articlePageObject.addArticleToMyNewList(myList);
         articlePageObject.returnToSearch();
@@ -72,9 +69,11 @@ public class ArticleTests extends CoreTestCase {
 
         listDetailsPageObject.openArticle(words[0]);
 
-
         if(Platform.getInstance().isIOS()){
             articlePageObject.assertSubtitleIsPresent(words_subtitles[0]);
+        }
+        else if(Platform.getInstance().isMW()){
+            articlePageObject.assertSubtitleIsPresent(words_subtitles[2]); //it uses another note text for that article instead title
         }
         else {
             articlePageObject.assertTitleIsPresent(words[0]);

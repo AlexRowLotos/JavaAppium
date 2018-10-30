@@ -3,14 +3,19 @@ package lib;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Platform {
     private static final String IOSPlatform = "ios";
     private static final String AndroidPlatform = "android";
-
-    protected AppiumDriver driver;
+    private static final String MobileWeb = "mobile_web";
     private static String AppiumUrl = "http://127.0.0.1:4723/wd/hub";
 
     private static Platform instance;
@@ -28,7 +33,7 @@ public class Platform {
         return instance;
     }
 
-    public AppiumDriver getDriver() throws Exception {
+    public RemoteWebDriver getDriver() throws Exception {
         URL URL = new URL(AppiumUrl);
 
         if(this.isAndroid()) {
@@ -37,6 +42,10 @@ public class Platform {
 
         else if(this.isIOS()) {
             return new IOSDriver(URL, this.getIOSDesiredCapabilities());
+        }
+
+        else if(this.isMW()) {
+            return new ChromeDriver(this.getMWChromeOptions());
         }
 
         else {
@@ -50,6 +59,10 @@ public class Platform {
 
     public boolean isIOS() {
         return isPlatform(IOSPlatform);
+    }
+
+    public boolean isMW() {
+        return isPlatform(MobileWeb);
     }
 
     private DesiredCapabilities getAndroidDesiredCapabilities(){
@@ -77,6 +90,17 @@ public class Platform {
         capabilities.setCapability("app","/Users/evgenydylevsky/Desktop/JavaAppiumAutomation/apks/Wikipedia.app");
 
         return capabilities;
+    }
+
+    private ChromeOptions getMWChromeOptions() {
+        Map<String, Object> devicesMetrics = new HashMap<String, Object>();
+
+        Map<String, Object> mobileEmulation = new HashMap<String, Object>();
+        mobileEmulation.put("deviceName", "Nexus 5");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+
+        return chromeOptions;
     }
 
     private Boolean isPlatform(String myPlatform){

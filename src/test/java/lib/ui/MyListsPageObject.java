@@ -1,14 +1,17 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class MyListsPageObject extends MainPageObject {
 
     public static String
             READING_LIST_TAB,
+            REMOVE_BUTTON_MW,
             LIST_ELEMENT_TPL;
 
-    public MyListsPageObject(AppiumDriver driver) {
+    public MyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
@@ -20,6 +23,11 @@ public class MyListsPageObject extends MainPageObject {
     }
 
     public void openList(String name) {
-        this.waitForElementPresentAndClick(getListElement(name),"no list with selected name", 5);
+        if (Platform.getInstance().isMW()) {
+            this.waitForElementPresentAndClick(READING_LIST_TAB, "no list tab", 5);
+        }
+        else {
+            this.waitForElementPresentAndClick(getListElement(name), "no list with selected name", 5);
+        }
     }
 }
