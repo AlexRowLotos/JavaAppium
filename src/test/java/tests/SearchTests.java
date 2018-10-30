@@ -10,6 +10,8 @@ import java.util.List;
 
 public class SearchTests extends CoreTestCase {
 
+    //Test was extended on Mobile Web platform by one global refactoring from commit for excersice 17 (previous task)
+    
     @Test
     public void testMultipleConditionsSearch() throws Exception {
         String[] correctResults = {
