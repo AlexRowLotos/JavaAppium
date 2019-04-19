@@ -1,0 +1,4 @@
+[submodule "SubmodulePack"]
+	path = SubmodulePack
+	url = git@github.com:AlexRowLotos/Submodule.git
+	branch = branch_submodule
